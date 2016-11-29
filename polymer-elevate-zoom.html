@@ -1,0 +1,34 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`polymer-elevate-zoom`
+Polymer element uses jquery elevate zoom library.
+
+@demo demo/index.html 
+-->
+
+<dom-module id="polymer-elevate-zoom">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'polymer-elevate-zoom',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'polymer-elevate-zoom',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
