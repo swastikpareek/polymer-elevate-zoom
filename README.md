@@ -1,38 +1,30 @@
 # \<polymer-elevate-zoom\>
 
-Polymer element uses jquery elevate zoom library.
 
-## Install the Polymer-CLI
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+## Install polymer-elevate-zoom component using bower
 
-## Viewing Your Application
+First, make sure you have the [Bower Installed](https://bower.io/) installed. Then run `bower install --save polymer-elevate-zoom` to get the latest copy of the component.
 
-```
-$ polymer serve
-```
-
-## Building Your Application
+## Downloading the Component
 
 ```
-$ polymer build
+$ bower install --save polymer-elevate-zoom
 ```
 
-This will create a `build/` folder with `bundled/` and `unbundled/` sub-folders
-containing a bundled (Vulcanized) and unbundled builds, both run through HTML,
-CSS, and JS optimizers.
+## Importing the component
 
-You can serve the built versions by giving `polymer serve` a folder to serve
-from:
-
+Inside your elements imports document import `polymer-fullpage.html`
 ```
-$ polymer serve build/bundled
+<link rel="import" href="../path/to/polymer-elevate-zoom.html"/>
 ```
 
-## Running Tests
+This will include the `polymer-elevate-zoom` component to your application
+
+## Using the component
 
 ```
-$ polymer test
+<polymer-elevate-zoom attr=""></polymer-elevate-zoom>
 ```
+You can see the [docs and demo here](https://swastikpareek.github.io/polymer-elevate-zoom/)
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.

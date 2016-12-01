@@ -1,10 +1,39 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!-- Importing Polymer Library -->
 <link rel="import" href="../polymer/polymer.html">
+
+
+<!-- Including jQuery -->
+<script src="../elevatezoom/jquery-1.8.3.min.js"></script>
+
+<!-- Including fancybox library -->
+<script src="../fancyBox/source/jquery.fancybox.js"></script>
+
+<!-- This following line is only necessary in the case of using the plugin option `scrollOverflow:true` -->
+<script type="text/javascript" src="../elevatezoom/jquery.elevatezoom.js"></script>
+
+<!-- Including fancybox css code -->
+<link rel="stylesheet" type="text/css" href="../fancyBox/source/jquery.fancybox.css" />
+
 
 <!--
 `polymer-elevate-zoom`
-Polymer element uses jquery elevate zoom library.
 
-@demo demo/index.html 
+Polymer element uses <a href="http://www.elevateweb.co.uk/image-zoom">jquery elevate zoom library</a>.
+
+<polymer-elevate-zoom></polymer-elevate-zoom>
+
+All properties are the mapping of the actual property of the <strong>Elevate Zoom</strong> library
+
+@demo demo/index.html
 -->
 
 <dom-module id="polymer-elevate-zoom">
@@ -14,7 +43,14 @@ Polymer element uses jquery elevate zoom library.
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <img id="zoom" src$="{{_zoomedImages.src}}" data-zoom-image$="{{_zoomedImages.zommedImage}}"/>
+      <div id$="{{gallery}}" hidden$="{{_isEmpty(galleryImages)}}">
+        <template id="galleryItems" is="dom-repeat" items="{{galleryImages}}">
+          <a href="#" data-image$='{{item.small}}' data-zoom-image$='{{item.large}}'>
+            <img id="img_01" src='{{item.thumb}}' />
+          </a>
+        </template>
+      </div>
   </template>
 
   <script>
@@ -23,12 +59,340 @@ Polymer element uses jquery elevate zoom library.
       is: 'polymer-elevate-zoom',
 
       properties: {
-        prop1: {
+        // Overriden by first item small element of galleryImages attribute
+        src: {
           type: String,
-          value: 'polymer-elevate-zoom',
+          value: '../../elevatezoom/images/small/image1.png',
+        },
+        // Overriden by first item large element of galleryImages attribute
+        zommedImage: {
+          type: String,
+          value: '../../elevatezoom/images/large/image1.jpg',
+        },
+        galleryImages: {
+          type: Array,
+          value: [{
+           'small' : '../../elevatezoom/images/small/image1.png',
+           'large' : '../../elevatezoom/images/large/image1.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image1.jpg',
+          },
+          {
+           'small' : '../../elevatezoom/images/small/image2.png',
+           'large' : '../../elevatezoom/images/large/image2.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image2.jpg',
+          },
+          {
+           'small' : '../../elevatezoom/images/small/image3.png',
+           'large' : '../../elevatezoom/images/large/image3.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image3.jpg',
+          },
+          {
+           'small' : '../../elevatezoom/images/small/image4.png',
+           'large' : '../../elevatezoom/images/large/image4.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image4.jpg',
+          }],
+        },
+        //when to activate zoom
+        zoomActivation: {
+          type: String,
+          value : 'hover'
+        },
+        //false disables zoomwindow from showing
+        zoomEnabled: {
+          type: Boolean,
+          value: true,
+        },
+        //by default, load all the images, if 0, then only load images after activated (PLACEHOLDER FOR NEXT VERSION)
+        preloading: {
+          type: Number,
+          value: 1,
+        },
+        //default zoom level of image
+        zoomLevel: {
+          type: Number,
+          value: 1,
+        },
+        //allow zoom on mousewheel, true to activate
+        scrollZoom: {
+          type: Boolean,
+          value: false,
+        },
+        //steps of the scrollzoom
+        scrollZoomIncrement: {
+          type: Number,
+          value: 0.1,
+        },
+        minZoomLevel: {
+          type: Boolean,
+          value: false,
+        },
+        maxZoomLevel: {
+          type: Boolean,
+          value: false,
+        },
+        easing: {
+          type: Boolean,
+          value: false,
+        },
+        easingAmount: {
+          type: Number,
+          value: 12,
+        },
+        lensSize: {
+          type: Number,
+          value: 200,
+        },
+        zoomWindowWidth: {
+          type: Number,
+          value: 400,
+        },
+        zoomWindowHeight: {
+          type: Number,
+          value: 400,
+        },
+        zoomWindowOffsetx: {
+          type: Number,
+          value: 0,
+        },
+        zoomWindowOffsety: {
+          type: Number,
+          value: 0,
+        },
+        zoomWindowPosition: {
+          type: Number,
+          value: 1,
+        },
+        zoomWindowBgColour: {
+          type: String,
+          value: '#fff',
+        },
+        lensFadeIn: {
+          type: Boolean,
+          value: false,
+        },
+        lensFadeOut: {
+          type: Boolean,
+          value: false,
+        },
+        debug: {
+          type: Boolean,
+          value: false,
+        },
+        zoomWindowFadeIn: {
+          type: Boolean,
+          value: false,
+        },
+        zoomWindowFadeOut: {
+          type: Boolean,
+          value: false,
+        },
+        zoomWindowAlwaysShow: {
+          type: Boolean,
+          value: false,
+        },
+        zoomTintFadeIn: {
+          type: Boolean,
+          value: false,
+        },
+        zoomTintFadeOut: {
+          type: Boolean,
+          value: false,
+        },
+        borderSize: {
+          type: Number,
+          value: 4,
+        },
+        showLens: {
+          type: Boolean,
+          value: true,
+        },
+        borderColour: {
+          type: String,
+          value: '#888',
+        },
+        lensBorderSize: {
+          type: Number,
+          value: 1,
+        },
+        lensBorderColour: {
+          type: String,
+          value: '#000',
+        },
+        //can be 'round'
+        lensShape: {
+          type: String,
+          value: 'square',
+        },
+         //window is default,  also 'lens' available -
+        zoomType: {
+          type: String,
+          value: 'window',
+        },
+        containLensZoom: {
+          type: Boolean,
+          value: false,
+        },
+         //colour of the lens background
+        lensColour: {
+          type: String,
+          value: 'white',
+        },
+        //opacity of the lens
+        lensOpacity: {
+          type: Number,
+          value: 0.4,
+        },
+        lenszoom: {
+          type: Boolean,
+          value: false,
+        },
+        //enable the tinting
+        tint: {
+          type: Boolean,
+          value: false,
+        },
+        //default tint color, can be anything, red, #ccc, rgb(0,0,0)
+        tintColour: {
+          type: String,
+          value: '#333',
+        },
+        //opacity of the tint
+        tintOpacity: {
+          type: Number,
+          value: 0.4,
+        },
+        gallery: {
+          type: String,
+          value: 'gallery',
+        },
+        galleryActiveClass: {
+          type: String,
+          value: 'active',
+        },
+        imageCrossfade: {
+          type: Boolean,
+          value: false,
+        },
+        //width or height
+        constrainType: {
+          type: Boolean,
+          value: false,
+        },
+        //in pixels the dimensions you want to constrain on
+        constrainSize: {
+          type: Boolean,
+          value: false,
+        },
+        //http://www.example.com/spinner.gif
+        loadingIcon: {
+          type: Boolean,
+          value: false,
+        },
+        // user should set to what they want the cursor as, if they have set a click function
+        cursor: {
+          type: String,
+          value: 'default',
+        },
+        responsive: {
+          type: Boolean,
+          value: true,
+        },
+        _zoomedImages: {
+          type: Object,
+          computed : '_zoomedImagesFn(galleryImages, src, zommedImage)',
         },
       },
+      _zoomedImagesFn: function(galleryImages, src, zommedImage){
+        var imageJson = {
+          src : src,
+          zommedImage: zommedImage,
+        };
+        if(galleryImages.length > 0){
+          imageJson.src = galleryImages[0].small;
+          imageJson.zommedImage = galleryImages[0].large;
+        }
+        return imageJson;
+      },
+      /*
+       * Returns configuration JSON
+       */
+      _isEmpty: function(arr){
+        return arr.length > 0 ? false : true;
+      },
+      getConfig: function(){
+        var self = this;
 
+        return {
+          zoomActivation: self.zoomActivation,
+          zoomEnabled: self.zoomEnabled,
+          preloading: self.preloading,
+          zoomLevel: self.zoomLevel,
+          scrollZoom: self.scrollZoom,
+          scrollZoomIncrement: self.scrollZoomIncrement,
+          minZoomLevel: self.minZoomLevel,
+          maxZoomLevel: self.maxZoomLevel,
+          easing: self.easing,
+          easingAmount: self.easingAmount,
+          lensSize: self.lensSize,
+          zoomWindowWidth: self.zoomWindowWidth,
+          zoomWindowHeight: self.zoomWindowHeight,
+          zoomWindowOffsetx: self.zoomWindowOffsetx,
+          zoomWindowOffsety: self.zoomWindowOffsety,
+          zoomWindowPosition: self.zoomWindowPosition,
+          zoomWindowBgColour: self.zoomWindowBgColour,
+          lensFadeIn: self.lensFadeIn,
+          lensFadeOut: self.lensFadeOut,
+          debug: self.debug,
+          zoomWindowFadeIn: self.zoomWindowFadeIn,
+          zoomWindowFadeOut: self.zoomWindowFadeOut,
+          zoomWindowAlwaysShow: self.zoomWindowAlwaysShow,
+          zoomTintFadeIn: self.zoomTintFadeIn,
+          zoomTintFadeOut: self.zoomTintFadeOut,
+          borderSize: self.borderSize,
+          showLens: self.showLens,
+          borderColour: self.borderColour,
+          lensBorderSize: self.lensBorderSize,
+          lensBorderColour: self.lensBorderColour,
+          lensShape: self.lensShape,
+          zoomType: self.zoomType,
+          containLensZoom: self.containLensZoom,
+          lensColour: self.lensColour,
+          lensOpacity: self.lensOpacity,
+          lenszoom: self.lenszoom,
+          tint: self.tint,
+          tintColour: self.tintOpacity,
+          tintOpacity: self.tintOpacity,
+          gallery: self.gallery ,
+          galleryActiveClass: self.galleryActiveClass,
+          imageCrossfade: self.imageCrossfade,
+          constrainType: self.constrainType,
+          constrainSize: self.constrainSize,
+          loadingIcon: self.loadingIcon,
+          cursor: self.cursor,
+          responsive: self.responsive,
+        };
+      },
+      ready: function(){
+        var self = this;
+        var options = self.getConfig();
+        var zoomer = self.$.zoom;
+        // lazy bootstrapping the library
+        if(self._isEmpty(self.galleryImages)){
+          $(zoomer).elevateZoom(options);
+        } else{
+          self.$.galleryItems.addEventListener('dom-change', function(){
+            $(zoomer).elevateZoom(options);
+          });
+        }
+
+        // Pass the images to Fancybox
+        $(zoomer).bind('click', function(e) {
+          var ez =  $(self.$.zoom).data('elevateZoom');
+          $.fancybox(ez.getGalleryList());
+          return false;
+        });
+
+      }
     });
   </script>
 </dom-module>
