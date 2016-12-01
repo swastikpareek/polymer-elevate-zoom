@@ -1,9 +1,25 @@
 {
   "name": "polymer-elevate-zoom",
+  "main": [
+    "polymer-elevate-zoom.html"
+    ],
   "description": "Polymer element uses jquery elevate zoom library.",
-  "main": "polymer-elevate-zoom.html",
+  "keywords": [
+    "elevatezoom",
+    "elevate-zoom",
+    "zoom",
+    "product-zoom",
+    "web-components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0"
+    "polymer": "Polymer/polymer#^1.4.0",
+    "elevatezoom": "elevateweb/elevatezoom#^2.2.3",
+    "fancyBox": "^2.1.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
