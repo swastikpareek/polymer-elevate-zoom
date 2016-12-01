@@ -1,13 +1,37 @@
-<!-- Importing Polymer code -->
-<!-- <link rel="import" href="../polymer/polymer.html"> -->
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!-- Importing Polymer Library -->
+<link rel="import" href="../polymer/polymer.html">
 
-<script type="text/javascript" src="bower_components/elevatezoom/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="bower_components/fancyBox/source/jquery.fancybox.js"></script>
-<script type="text/javascript" src="bower_components/elevatezoom/jquery.elevatezoom.js"></script>
-<link rel="stylesheet" type="text/css" href="bower_components/fancyBox/source/jquery.fancybox.css"/>
+
+<!-- Including jQuery -->
+<script src="../elevatezoom/jquery-1.8.3.min.js"></script>
+
+<!-- Including fancybox library -->
+<script src="../fancyBox/source/jquery.fancybox.js"></script>
+
+<!-- This following line is only necessary in the case of using the plugin option `scrollOverflow:true` -->
+<script type="text/javascript" src="../elevatezoom/jquery.elevatezoom.js"></script>
+
+<!-- Including fancybox css code -->
+<link rel="stylesheet" type="text/css" href="../fancyBox/source/jquery.fancybox.css" />
+
+
 <!--
 `polymer-elevate-zoom`
-Polymer element uses jquery elevate zoom library.
+
+Polymer element uses <a href="http://www.elevateweb.co.uk/image-zoom">jquery elevate zoom library</a>.
+
+<polymer-elevate-zoom></polymer-elevate-zoom>
+
+All properties are the mapping of the actual property of the <strong>Elevate Zoom</strong> library
 
 @demo demo/index.html
 -->
@@ -20,8 +44,8 @@ Polymer element uses jquery elevate zoom library.
       }
     </style>
     <img id="zoom" src$="{{_zoomedImages.src}}" data-zoom-image$="{{_zoomedImages.zommedImage}}"/>
-      <div id$="{{gallery}}{{_getUniquePos()}}" hidden$="{{_isEmpty(galleryImages)}}">
-        <template is="dom-repeat" items="{{galleryImages}}">
+      <div id$="{{gallery}}" hidden$="{{_isEmpty(galleryImages)}}">
+        <template id="galleryItems" is="dom-repeat" items="{{galleryImages}}">
           <a href="#" data-image$='{{item.small}}' data-zoom-image$='{{item.large}}'>
             <img id="img_01" src='{{item.thumb}}' />
           </a>
@@ -38,34 +62,34 @@ Polymer element uses jquery elevate zoom library.
         // Overriden by first item small element of galleryImages attribute
         src: {
           type: String,
-          value: '../bower_components/elevatezoom/images/small/image1.png',
+          value: '../../elevatezoom/images/small/image1.png',
         },
         // Overriden by first item large element of galleryImages attribute
         zommedImage: {
           type: String,
-          value: '../bower_components/elevatezoom/images/large/image1.jpg',
+          value: '../../elevatezoom/images/large/image1.jpg',
         },
         galleryImages: {
           type: Array,
           value: [{
-           'small' : '../bower_components/elevatezoom/images/small/image1.png',
-           'large' : '../bower_components/elevatezoom/images/large/image1.jpg',
-           'thumb' : '../bower_components/elevatezoom/images/thumb/image1.jpg',
+           'small' : '../../elevatezoom/images/small/image1.png',
+           'large' : '../../elevatezoom/images/large/image1.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image1.jpg',
           },
           {
-           'small' : '../bower_components/elevatezoom/images/small/image2.png',
-           'large' : '../bower_components/elevatezoom/images/large/image2.jpg',
-           'thumb' : '../bower_components/elevatezoom/images/thumb/image2.jpg',
+           'small' : '../../elevatezoom/images/small/image2.png',
+           'large' : '../../elevatezoom/images/large/image2.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image2.jpg',
           },
           {
-           'small' : '../bower_components/elevatezoom/images/small/image3.png',
-           'large' : '../bower_components/elevatezoom/images/large/image3.jpg',
-           'thumb' : '../bower_components/elevatezoom/images/thumb/image3.jpg',
+           'small' : '../../elevatezoom/images/small/image3.png',
+           'large' : '../../elevatezoom/images/large/image3.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image3.jpg',
           },
           {
-           'small' : '../bower_components/elevatezoom/images/small/image4.png',
-           'large' : '../bower_components/elevatezoom/images/large/image4.jpg',
-           'thumb' : '../bower_components/elevatezoom/images/thumb/image4.jpg',
+           'small' : '../../elevatezoom/images/small/image4.png',
+           'large' : '../../elevatezoom/images/large/image4.jpg',
+           'thumb' : '../../elevatezoom/images/thumb/image4.jpg',
           }],
         },
         //when to activate zoom
@@ -292,17 +316,6 @@ Polymer element uses jquery elevate zoom library.
       /*
        * Returns configuration JSON
        */
-      _getUniquePos: function(){
-        var self = this;
-        var nodeList = Array.prototype.slice.call( self.parentNode.children );
-        var obj = this;
-        var ancestor = 0;
-        while(obj.parentNode !== document){
-          ancestor ++;
-          obj = obj.parentNode;
-        }
-        return ancestor.toString() + nodeList.indexOf(self).toString();
-      },
       _isEmpty: function(arr){
         return arr.length > 0 ? false : true;
       },
@@ -349,7 +362,7 @@ Polymer element uses jquery elevate zoom library.
           tint: self.tint,
           tintColour: self.tintOpacity,
           tintOpacity: self.tintOpacity,
-          gallery: self.gallery + self._getUniquePos(),
+          gallery: self.gallery ,
           galleryActiveClass: self.galleryActiveClass,
           imageCrossfade: self.imageCrossfade,
           constrainType: self.constrainType,
@@ -367,7 +380,7 @@ Polymer element uses jquery elevate zoom library.
         if(self._isEmpty(self.galleryImages)){
           $(zoomer).elevateZoom(options);
         } else{
-          self.$$('#' + self.gallery + self._getUniquePos()).addEventListener('dom-change', function(){
+          self.$.galleryItems.addEventListener('dom-change', function(){
             $(zoomer).elevateZoom(options);
           });
         }
